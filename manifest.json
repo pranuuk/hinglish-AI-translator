@@ -25,6 +25,7 @@
       "type": "module"
     },
     "action": {
+        "options_page": "history.html"
         "default_popup": "popup/welcome.html",
       "default_icon": {
         "16": "icons/icon16.png",
