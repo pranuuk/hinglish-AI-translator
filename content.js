@@ -66,6 +66,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             element.textContent = response;
             element.classList.add('hinglish-translated');
             translatedCount++;
+
+  // Save to history
+           chrome.storage.local.get({ history: [] }, (data) => {
+           const history = data.history;
+           history.push(response);
+           chrome.storage.local.set({ history });
+           });
           }
         } catch (error) {
           console.error('Translation error:', error);
@@ -108,12 +115,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
         
         if (response && response !== "Please configure your API key first") {
-          node.textContent = response;
-          if (node.parentElement) {
-            node.parentElement.classList.add('hinglish-translated');
-          }
-          translatedCount++;
-        }
+         node.textContent = response;
+         if (node.parentElement) {
+           node.parentElement.classList.add('hinglish-translated');
+         }
+        translatedCount++;
+
+  // Save to history
+        chrome.storage.local.get({ history: [] }, (data) => {
+          const history = data.history;
+          history.push(response);
+          chrome.storage.local.set({ history });
+        });
+       }
       } catch (error) {
         console.error('Translation error:', error);
       }
