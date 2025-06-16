@@ -121,7 +121,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         showError('Failed to save settings');
       }
     });
+    loadHistory();
   });
+function loadHistory() {
+  chrome.storage.local.get({ history: [] }, (data) => {
+    const list = document.getElementById('historyList');
+    if (!list) return;
+    list.innerHTML = '';
+    data.history.slice().reverse().forEach(text => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      list.appendChild(li);
+    });
+  });
+}
+
   
   // Function to show success message
   function showSuccess(message) {
